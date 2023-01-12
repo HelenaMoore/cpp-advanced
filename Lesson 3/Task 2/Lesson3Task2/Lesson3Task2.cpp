@@ -17,6 +17,17 @@ public:
 		this->arr = new int[actual_size]();
 	}
 
+	SmartArray(const SmartArray& copy)
+	{
+		actual_size = copy.actual_size;
+		logical_size = copy.logical_size;
+		arr = new int[actual_size]();
+		for (int i = 0; i < logical_size; ++i)
+		{
+			arr[i] = copy.arr[i];
+		}
+	};
+
 	void addElement(int new_element)
 	{
 		if (logical_size < actual_size)
@@ -25,7 +36,7 @@ public:
 			++logical_size;
 		}
 		else {
-			throw std::exception("Превышен максимальный размер массива!");
+			throw std::runtime_error("Превышен максимальный размер массива!");
 		}
 	}
 
@@ -33,15 +44,15 @@ public:
 	{
 		if (index < 0)
 		{
-			throw std::exception("Индекс не может быть меньше нуля!");
+			throw std::runtime_error("Индекс не может быть меньше нуля!");
 		}
 		else if (index > actual_size - 1)
 		{
-			throw std::exception("Превышен максимально допустимый индекс элемента!");
+			throw std::runtime_error("Превышен максимально допустимый индекс элемента!");
 		}
 		else if (index > logical_size - 1)
 		{
-			throw std::exception("Элемента с таким индексом нет.");
+			throw std::runtime_error("Элемента с таким индексом нет.");
 		}
 		else {
 			return arr[index];
@@ -67,19 +78,17 @@ public:
 	{
 		if (&other != this)
 		{
-			if (actual_size > 0)
-			{
-				delete[] arr;
-				actual_size = other.actual_size;
-				logical_size = other.logical_size;
-				arr = new int[actual_size];
-				for (int i = 0; i < logical_size; ++i)
+			delete[] arr;
+			actual_size = other.actual_size;
+			logical_size = other.logical_size;
+			arr = new int[actual_size];
+			for (int i = 0; i < logical_size; ++i)
 				{
 					arr[i] = other.arr[i];
 				}
-				return *this;
-			}
+			
 		}
+		return *this;
 	};
 
 	~SmartArray()

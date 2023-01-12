@@ -10,6 +10,10 @@ private:
 	int* arr;
 
 public:
+
+	SmartArray(const SmartArray&) = delete;
+	SmartArray& operator=(const SmartArray&) = delete;
+
 	SmartArray(int actual_size)
 	{
 		this->logical_size = 0;
@@ -25,7 +29,7 @@ public:
 			++logical_size;
 		}
 		else {
-			throw std::exception("Превышен максимальный размер массива!");
+			throw std::runtime_error("Превышен максимальный размер массива!");
 		}
 	}
 
@@ -33,15 +37,15 @@ public:
 	{
 		if (index < 0)
 		{
-			throw std::exception("Индекс не может быть меньше нуля!");
+			throw std::runtime_error("Индекс не может быть меньше нуля!");
 		}
 		else if (index > actual_size - 1)
 		{
-			throw std::exception("Превышен максимально допустимый индекс элемента!");
+			throw std::runtime_error("Превышен максимально допустимый индекс элемента!");
 		}
 		else if (index > logical_size - 1)
 		{
-			throw std::exception("Элемента с таким индексом нет.");
+			throw std::runtime_error("Элемента с таким индексом нет.");
 		}
 		else {
 			return arr[index];
